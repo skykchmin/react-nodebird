@@ -2,7 +2,8 @@ import React, { useState, useCallback } from 'react';
 import { Form, Input, Button } from 'antd';
 import Link from 'next/link' ;
 import styled from 'styled-components' ;
-
+import PropTypes from 'prop-types';
+import useInput from '../hooks/useInput';
 
 const ButtonWapper = styled.div` 
     marginTop: 10px;
@@ -14,16 +15,18 @@ const FormWrapper = styled(Form)`
 `;
 
 const LoginForm = ({ setIsLoggedIn }) => {
-    const [id, setId] = useState('');
-    const [password, setPassword] = useState('');
+    const [id, onChangeId] = useInput('');
+    const [password, onChangePassword] = useInput('');
 
-    const onChangeId = useCallback((e)=> {//컴포넌트에 props로 넘겨주는 함수는 useCallback을 꼭 써달라
-        setId(e.target.value);
-    }, []);
+    // const [id, setId] = useState('');
+    // const onChangeId = useCallback((e)=> {//컴포넌트에 props로 넘겨주는 함수는 useCallback을 꼭 써달라
+    //     setId(e.target.value);
+    // }, []);
     
-    const onChangePassword = useCallback((e)=> {//컴포넌트에 props로 넘겨주는 함수는 useCallback을 꼭 써달라
-        setPassword(e.target.value);
-    }, []);
+    // const [password, setPassword] = useState('');
+    // const onChangePassword = useCallback((e)=> {//컴포넌트에 props로 넘겨주는 함수는 useCallback을 꼭 써달라
+    //     setPassword(e.target.value);
+    // }, []);
 
     const onSubmitForm = useCallback(() => { //컴포넌트에대 넣는거면 useCallback을 사용해야한다.
         console.log(id,password);
@@ -60,5 +63,10 @@ const LoginForm = ({ setIsLoggedIn }) => {
         </FormWrapper>
     );
 }
+
+LoginForm.propTypes = {
+    setIsLoggedIn: PropTypes.func.isRequired,
+}
+
 
 export default LoginForm;
