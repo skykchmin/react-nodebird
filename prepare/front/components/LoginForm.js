@@ -4,6 +4,8 @@ import Link from 'next/link' ;
 import styled from 'styled-components' ;
 import PropTypes from 'prop-types';
 import useInput from '../hooks/useInput';
+import { loginAction } from '../reducers'
+import { useDisPatch } from 'react-redux';
 
 const ButtonWapper = styled.div` 
     marginTop: 10px;
@@ -30,7 +32,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
 
     const onSubmitForm = useCallback(() => { //컴포넌트에대 넣는거면 useCallback을 사용해야한다.
         console.log(id,password);
-        setIsLoggedIn(true); //로그인 폼에서 로그인을 하는 순간 isLoggedin이 true로 바뀌면서 user프로필로 바뀐다
+        dispatch(loginAction({id, password}));
     }, [id, password]);
 
     return(
