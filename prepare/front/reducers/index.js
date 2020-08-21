@@ -1,43 +1,24 @@
-const initalState = {
-    user: {
-        isLoggedIn: false,
-        user: null,
-        signUpData: {},
-        loginData: {},
-    },
-    post: {
-        mainPosts: [],
-    }
-}
+import { HYDRATE } from 'next-redux-wrapper';
+import { combineReducers } from 'redux';
 
-const login = (data) => {
-    return{
-        type: 'LOG_IN',
-        data,
-    }
-}
+import user from './user';
+import post from './post';
 
-// action creator 
-const changeNickname = (data) => { //action을 만들어내는 creator 
-    
-    return {
-        type: 'CHANGE_NICKNAME',
-        data,
-    }
-}
 
 // (이전상태, 액션) => 다음상태
-const rootReducer = ((state = initalState, action) => {
-    switch ( action.type){
-        case 'CHANGE_NICKNAME':
-            return{
-                ...state,
-                user: {
-                    ...state.user,
-                    isLoggedIn: true,
-                }
-            }
-    }
+const rootReducer = combineReducers({
+    index: (state = {}, action) => {
+        switch (action.type){
+            case HYDRATE:
+                console.log('HYDRATE', action);
+                return{...state, ...action.payload };
+            default:
+                return state
+        }
+    },
+    user, 
+    post,
+    
 });
 
 export default rootReducer;

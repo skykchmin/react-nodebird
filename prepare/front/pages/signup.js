@@ -8,7 +8,7 @@ import useInput from '../hooks/useInput';
 
 const ErrorMessage = styled.div`
     color: red;
-` ;
+`;
 
 const Signup = () => {
     const [id, onChangeId] = useInput('');
