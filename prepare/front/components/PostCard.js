@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { RetweetOutlined, HeartOutlined, MessageOutlined, EllipsisOutlined} from '@ant-design/icons';
-import { Card, Popover, Button, Avatar } from 'antd';
+import { Card, Popover, Button, Avatar, List, Comment } from 'antd';
 
 import PostImages from './PostImages';
-
+import CommentForm from './CommentForm';
 
 const PostCard = ({ post }) => {
+    const [liked, setLiked] = useState(false);
+    const [commentFormOpened, setCommentFormOpened] = useState(false);
+    const onToggleLike = useCallback(() => {
+        setLiked((prev) => !prev);
+    }, []);
+
     const id = useSelector((state) => state.user?.id);
     
     return(
@@ -42,8 +48,25 @@ const PostCard = ({ post }) => {
                 
                 
             </Card>
-            {/* <CommentForm />
-            <Comments/> */}
+            {commentFormOpened && (
+                <div>
+                    <CommentForm post={post}/> {/* CommentForm post={post} 을 해주는 이유: 댓글은 게시글에 속해있다. 어떤 글에 댓글을 달건지 정보가 필요 , 게시글의 id가 필요 */}
+                    <List
+                        header={`${post.Comments.length}개의 댓글`}
+                        itemLayout="horizontal"
+                        dataSource={post.Comments} // post.Comments가 각각 item으로 들어간다.
+                        renderItem={(item) => (
+                            <li>
+                                <Comment
+                                    author={<Avatar>{item.User.nickname[0]}</Avatar>}
+                                    content={item.content}
+                                />
+                            </li>
+                        )}
+                    />
+                </div>    
+            )}
+            
         </div>
         
     );
